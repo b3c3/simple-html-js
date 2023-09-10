@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>There is No Place like 127.0.0.1</title>
+	<style>
+    body { /**background: lightpink;**/ }
+	
+    p, h1 { color: green; }
+    
+    #clientIP {
+    	color: red;
+        font-size: 40px;
+    }
+
+    #tickingclock {
+       text-align: center;
+       margin-top: 10%;
+       font-size: 90px;
+       font-family: Baskerville, Georgia;
+    }
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<script>
+	
+	/* Add "https://api.my-ip.io/ip.json". This jQuery call will communicate with the my-ip.io servers 
+    in order to retrieve the client's IP address. The $.getJSON line will load JSON-encoded data from the
+    server using a GET HTTP request. See documentation at https://www.my-ip.io/api-usage
+	Alternatives: https://api4.my-ip.io/ip.json for IPv4 and https://api6.my-ip.io/ip.json for IPv6
+	Note: https://api.my-ip.io/ip.json is for both and defaults to IPv6 where available
+	Other alternatives APIs for getting IP Address: "https://api.ipify.org?format=json" */
+				
+	$.getJSON("https://api.my-ip.io/ip.json", function(data) {
+		//Setting text of html element P (paragraph) with ID = clientIP
+		$("#clientIP").html(data.ip);
+	})
+    
+    /* The following code makes the ticking clock happen. See: https://codepen.io/ed-fast/pen/ExjbRe */
+    function display_clock(){
+      	//Save the times in variables
+        var today = new Date();
+        var hours = today.getHours();
+        var minutes = today.getMinutes();
+        var seconds = today.getSeconds();
+
+        //Set the AM or PM time
+        if (hours >= 12){
+          meridiem = " PM";
+        }
+        else {
+          meridiem = " AM";
+        }
+
+        //convert hours to 12 hour format and put 0 in front
+        if (hours > 12){
+            hours = hours - 12;
+        }
+        else if (hours === 0){
+            hours = 12;	
+        }
+
+        //Put 0 in front of single digit minutes and seconds
+        if (minutes < 10){
+            minutes = "0" + minutes;
+        }
+        else {
+            minutes = minutes;
+        }
+
+        if (seconds < 10){
+            seconds = "0" + seconds;
+        }
+        else {
+            seconds = seconds;
+        }
+
+		//Display the time in the BODY of the HTML page
+        document.getElementById("tickingclock").innerHTML = (hours + ":" + minutes + ":" + seconds + meridiem);
+
+    }
+    
+    //Schedule the whole function code to repeat itself again every SECOND.
+    setInterval('display_clock()', 1000);
+	</script>
+</head>
+
+<body>
+	<center>
+		<h1>This is [Insert-Your-Name-Here]'s Awesome Web Server!</h1>
+		<h3>Welcome to my Home. You have visited me from:</h3>
+		
+		<p id="clientIP"></p>
+        
+        <div id="tickingclock">TICKING-CLOCK-HERE</div>
+	</center>
+</body>
+
+</html>
